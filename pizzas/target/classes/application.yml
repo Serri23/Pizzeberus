@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: pizzas
+  cloud:
+    config:
+      uri: http://localhost:8081
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
