@@ -4,12 +4,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Table(name = "usuarios")
 @Entity
-@Getter
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,5 +18,25 @@ public class Usuario {
     @Setter
     @Column(name = "pizzasFavoritas")
     private ArrayList<String> pizzasFavoritas;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public ArrayList<String> getPizzasFavoritas() {
+		return pizzasFavoritas;
+	}
+	public void setPizzasFavoritas(ArrayList<String> pizzasFavoritas) {
+		this.pizzasFavoritas = pizzasFavoritas;
+	}
+    
+    
 
 }

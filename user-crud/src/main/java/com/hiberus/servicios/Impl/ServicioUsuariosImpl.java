@@ -10,8 +10,10 @@ import java.util.List;
 
 @Service
 public class ServicioUsuariosImpl implements ServicioUsuarios {
+	
      @Autowired
     RepositorioUsuario repositorioUsuario;
+     
     public List<Usuario> obtenerUsuarios(){
         return repositorioUsuario.findAll();
     }

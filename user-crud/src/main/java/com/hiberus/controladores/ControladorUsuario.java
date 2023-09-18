@@ -31,11 +31,8 @@ public class ControladorUsuario {
         List<Usuario> listaUsuarios = servicioUsuarios.obtenerUsuarios();
         List<UsuarioDto> listaUsuariosDto = new ArrayList<>();
         for(Usuario usuario: listaUsuarios){
-            UsuarioDto usuarioDto = UsuarioDto.builder()
-                    .id(usuario.getId())
-                    .nombre(usuario.getNombre())
-                    .pizzasFavoritas(usuario.getPizzasFavoritas())
-                    .build();
+        	
+            UsuarioDto usuarioDto = new UsuarioDto(usuario.getId(),usuario.getNombre(),usuario.getPizzasFavoritas());
             listaUsuariosDto.add(usuarioDto);
         }
             return new ResponseEntity<>(listaUsuariosDto, HttpStatus.OK);
