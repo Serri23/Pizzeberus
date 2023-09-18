@@ -13,35 +13,11 @@ public class ConfigData {
     @Bean("ConfigData")
     CommandLineRunner commandLineRunner(RepositorioPizza repositorioPizza) {
         return args -> {
-            Pizza pizza1 = Pizza.builder()
-                    .nombre("Camiseta")
-                    .talla("L")
-                    .color("Rojo")
-                    .idUsuario(1)
-                    .build();
+            Pizza pizza1 = new Pizza(1,"Margarita");
 
-            Pizza pizza2 = Pizza.builder()
-                    .nombre("Polo")
-                    .talla("L")
-                    .color("Negro")
-                    .idUsuario(1)
-                    .build();
+            Pizza pizza2 = new Pizza(2,"Diabola");
 
-            Pizza pizza3 = Pizza.builder()
-                    .nombre("Pantalón de deporte")
-                    .talla("M")
-                    .color("Blanco")
-                    .idUsuario(2)
-                    .build();
-
-            Pizza pizza4 = Pizza.builder()
-                    .nombre("Gorro")
-                    .talla("S")
-                    .color("Naranja")
-                    .idUsuario(3)
-                    .build();
-
-            repositorioPizza.saveAll(List.of(pizza1, pizza2, pizza3, pizza4));
+            repositorioPizza.saveAll(List.of(pizza1, pizza2));
         };
     }
 }

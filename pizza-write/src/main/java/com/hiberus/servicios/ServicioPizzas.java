@@ -1,12 +1,13 @@
 package com.hiberus.servicios;
 
-import com.hiberus.dto.PizzaDto;
+import com.hiberus.modelos.Pizza;
+
 import org.springframework.stereotype.Service;
 
 
 @Service
 public interface ServicioPizzas {
 
-    PizzaDto crearPizza(Integer id,String nombre);
+    Pizza crearPizza(Integer id,String nombre);
 
 }

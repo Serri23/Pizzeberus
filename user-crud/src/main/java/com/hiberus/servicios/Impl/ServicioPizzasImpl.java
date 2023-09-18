@@ -3,19 +3,24 @@ package com.hiberus.servicios.Impl;
 import com.hiberus.clientes.ClientePizzas;
 import com.hiberus.dto.PizzaDto;
 import com.hiberus.servicios.ServicioPizzas;
+
+import ch.qos.logback.classic.Logger;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service("feign-pizzas")
-@AllArgsConstructor
-@Slf4j
 public class ServicioPizzasImpl implements ServicioPizzas {
-    private final ClientePizzas clientePizzas;
+	Logger log;
+	
+    public ServicioPizzasImpl(ClientePizzas clientePizzas) {
+		super();
+		this.clientePizzas = clientePizzas;
+	}
+
+	private final ClientePizzas clientePizzas;
 
     @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerPizzasPorUsuario")
     @Override

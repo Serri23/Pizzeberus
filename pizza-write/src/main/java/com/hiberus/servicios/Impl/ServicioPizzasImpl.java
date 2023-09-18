@@ -14,7 +14,7 @@ public class ServicioPizzasImpl implements ServicioPizzas {
     RepositorioPizza repositorioPizza;
 
 	@Override
-	public PizzaDto crearPizza(Integer id, String nombre) {
+	public Pizza crearPizza(Integer id, String nombre) {
 		Pizza pizza = new Pizza();
 		pizza.setId(id);
 		pizza.setNombre(nombre);
