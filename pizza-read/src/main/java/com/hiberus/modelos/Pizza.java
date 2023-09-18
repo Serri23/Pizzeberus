@@ -1,18 +1,21 @@
 package com.hiberus.modelos;
 
-import lombok.*;
-
 import javax.persistence.*;
 
+@Table(name = "pizzas")
+@Entity
 public class Pizza {
 
-    @Id
+	public Pizza() {
+		
+	}
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-    @Setter
     @Column(name = "nombre")
     private String nombre;
+   
 	public Integer getId() {
 		return id;
 	}

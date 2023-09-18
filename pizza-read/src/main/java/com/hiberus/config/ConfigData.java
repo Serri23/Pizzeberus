@@ -13,11 +13,11 @@ public class ConfigData {
     @Bean("ConfigData")
     CommandLineRunner commandLineRunner(RepositorioPizza repositorioPizza) {
         return args -> {
-            Pizza pizza1 = new Pizza(1,"Margarita");
-
-            Pizza pizza2 = new Pizza(2,"Diabola");
-
-            repositorioPizza.saveAll(List.of(pizza1, pizza2));
+//            Pizza pizza1 = new Pizza(1,"Margarita");
+//
+//            Pizza pizza2 = new Pizza(2,"Diabola");
+//
+//            repositorioPizza.saveAll(List.of(pizza1, pizza2));
         };
     }
 }

@@ -9,7 +9,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "pizzas")
 @Entity
-@Getter
 public class Pizza {
 
     @Id

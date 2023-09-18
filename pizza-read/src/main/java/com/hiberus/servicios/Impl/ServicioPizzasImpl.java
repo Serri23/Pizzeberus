@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioPizzasImpl implements ServicioPizzas {
@@ -19,8 +20,14 @@ public class ServicioPizzasImpl implements ServicioPizzas {
         return repositorioPizza.findAll();
     }
 
-    @Override
-    public List<Pizza> obtenerPizzasPorIdUsuario(Integer idUsuario) {
-        return repositorioPizza.findByIdUsuario(idUsuario);
-    }
+	@Override
+	public Optional<Pizza> obtenerPizzaPorId(Integer id) {
+		Optional<Pizza> pizza = repositorioPizza.findById(id);
+		return pizza;
+	}
+
+//    @Override
+//    public List<Pizza> obtenerPizzasPorIdUsuario(Integer idUsuario) {
+//        return repositorioPizza.findByIdUsuario(idUsuario);
+//    }
 }

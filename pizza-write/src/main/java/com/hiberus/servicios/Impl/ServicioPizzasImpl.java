@@ -3,6 +3,9 @@ package com.hiberus.servicios.Impl;
 import com.hiberus.modelos.Pizza;
 import com.hiberus.repositorios.RepositorioPizza;
 import com.hiberus.servicios.ServicioPizzas;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +22,17 @@ public class ServicioPizzasImpl implements ServicioPizzas {
 		pizza.setId(id);
 		pizza.setNombre(nombre);
 		return repositorioPizza.save(pizza);
+	}
+
+	@Override
+	public Optional<Pizza> obtenerPizzaPorId(Integer id) {
+		Optional<Pizza> pizza = repositorioPizza.findById(id);
+		return pizza;
+	}
+
+
+	@Override
+	public Pizza modificarPizza(Optional<Pizza> pizza) {
+		return repositorioPizza.save(pizza.get());
 	}
 }
