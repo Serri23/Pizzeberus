@@ -2,7 +2,6 @@ package com.hiberus.dto;
 
 import java.util.ArrayList;
 
-
 public class UsuarioDto {
     
 	private Integer id;
