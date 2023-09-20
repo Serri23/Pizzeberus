@@ -26,8 +26,7 @@ public class ServicioPizzasImpl implements ServicioPizzas {
 
 	@Override
 	public Optional<Pizza> obtenerPizzaPorId(Integer id) {
-		Optional<Pizza> pizza = repositorioPizza.findById(id);
-		return pizza;
+		return repositorioPizza.findById(id);
 	}
 
 
