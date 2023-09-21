@@ -1,5 +1,7 @@
 # Pizzeberus
 
+![image text](https://github.com/Serri23/Pizzeberus/blob/develop/assets/arquitectura-pizzeberus.png)
+
 # Guía de Uso
 1. ``git clone https://github.com/Serri23/Pizzeberus.git``
 2. ``mvn clean install`` para instalar las dependencias del proyecto.
@@ -19,7 +21,7 @@
 - pg-admin: http://localhost:80
 - Zipkin: http://localhost:9411
 - Rabbitmq: http://localhost:15672/
-
+ 
 # Autor
 Álvaro Serrano Andrés
 
