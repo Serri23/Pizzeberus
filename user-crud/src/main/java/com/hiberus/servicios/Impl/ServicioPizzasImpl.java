@@ -4,16 +4,16 @@ import com.hiberus.clientes.ClientePizzas;
 import com.hiberus.dto.PizzaDto;
 import com.hiberus.servicios.ServicioPizzas;
 
-import ch.qos.logback.classic.Logger;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service("feign-pizzas")
 public class ServicioPizzasImpl implements ServicioPizzas {
-	Logger log;
+	Logger logger = Logger.getLogger(ServicioPizzas.class.getName());
 	
     public ServicioPizzasImpl(ClientePizzas clientePizzas) {
 		super();
@@ -22,14 +22,25 @@ public class ServicioPizzasImpl implements ServicioPizzas {
 
 	private final ClientePizzas clientePizzas;
 
-    @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerPizzasPorUsuario")
+    @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerPizzas")
     @Override
-    public List<PizzaDto> obtenerPizzasPorUsuario(Integer idUsuario) {
-        return clientePizzas.obtenerPizzasPorUsuario(idUsuario).getBody();
+	public List<PizzaDto> obtenerPizzas() {
+		return clientePizzas.obtenerPizzas().getBody();
+	}
+    
+    private List<PizzaDto> fallBackObtenerPizzas(Throwable throwable){
+    	logger.info("Lista pizza por defecto");
+        return new ArrayList<>();
     }
-
-    private List<PizzaDto> fallBackObtenerPizzasPorUsuario(Integer idUsuario, Throwable throwable){
-        log.info("Lista pizza por defecto");
+    
+    @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerIdsPizzas")
+	@Override
+	public List<Integer> obtenerIdsPizzas() {
+		return clientePizzas.obtenerIdsPizzas().getBody();
+	}
+    
+    private List<PizzaDto> fallBackObtenerIdsPizzas(Throwable throwable){
+    	logger.info("Lista pizza por defecto");
         return new ArrayList<>();
     }
 }

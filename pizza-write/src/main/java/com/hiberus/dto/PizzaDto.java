@@ -1,14 +1,15 @@
 package com.hiberus.dto;
 
 public class PizzaDto {
-	public PizzaDto(Integer id, String nombre) {
+	
+	private Integer id;
+    private String nombre;
+    
+    public PizzaDto(Integer id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 	}
-	
-	private Integer id;
-    private String nombre;
     
 	public Integer getId() {
 		return id;

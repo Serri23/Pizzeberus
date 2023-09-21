@@ -21,7 +21,7 @@ public class ServicioUsuariosImpl implements ServicioUsuarios {
     }
 
 	@Override
-	public Usuario crearUsuario(String nombre, ArrayList<String> pizzasFavoritas) {
+	public Usuario crearUsuario(String nombre, ArrayList<Integer> pizzasFavoritas) {
 		Usuario usuario= new Usuario();
 		usuario.setNombre(nombre);
 		usuario.setPizzasFavoritas(pizzasFavoritas);

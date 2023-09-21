@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface ServicioPizzas {
 
-    Pizza crearPizza(Integer id,String nombre);
+    Pizza crearPizza(String nombre);
 
 	Optional<Pizza> obtenerPizzaPorId(Integer id);
 

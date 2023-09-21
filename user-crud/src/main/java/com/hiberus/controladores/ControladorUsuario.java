@@ -1,5 +1,6 @@
 package com.hiberus.controladores;
 
+import com.hiberus.dto.PizzaDto;
 import com.hiberus.dto.UsuarioDto;
 import com.hiberus.modelos.Usuario;
 import com.hiberus.servicios.ServicioPizzas;
@@ -33,9 +34,16 @@ public class ControladorUsuario {
 
     @PostMapping(value = "/crearUsuario")
     public ResponseEntity<UsuarioDto> crearUsuario(@RequestBody Map<String,ArrayList<String>> body){
-    	Usuario usuario = servicioUsuarios.crearUsuario(body.get("nombre").get(0),body.get("pizzasFavoritas"));
+    	//Se convierte el body a un array de integer
+    	ArrayList<String> pizzasFavoritas = body.get("pizzasFavoritas");
+    	ArrayList<Integer> pizzasFavoritasUsuario = new ArrayList<Integer>();
+    	for(String pizza : pizzasFavoritas) {
+    		pizzasFavoritasUsuario.add(Integer.parseInt(pizza));
+    	}
+		Usuario usuario = servicioUsuarios.crearUsuario(body.get("nombre").get(0),pizzasFavoritasUsuario);
     	UsuarioDto usuarioDto = new UsuarioDto(usuario.getId(),usuario.getNombre(),usuario.getPizzasFavoritas());
     	return new ResponseEntity<UsuarioDto>(usuarioDto, HttpStatus.OK);
+	
     }
     
     @PutMapping(value = "/modificarUsuario/{id}")
@@ -44,9 +52,13 @@ public class ControladorUsuario {
     	if(usuario.isEmpty()) { //no existe
     		return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
     	}else {
-    		//Comprobar que nada es null
-    		usuario.get().setNombre(body.get("nombre").get(0));
-    		usuario.get().setPizzasFavoritas(body.get("pizzasFavoritas"));
+    		ArrayList<String> pizzasFavoritas = body.get("pizzasFavoritas");
+        	ArrayList<Integer> pizzasFavoritasUsuario = new ArrayList<Integer>();
+        	for(String pizza : pizzasFavoritas) {
+        		pizzasFavoritasUsuario.add(Integer.parseInt(pizza));
+        	}
+        	usuario.get().setNombre(body.get("nombre").get(0));
+    		usuario.get().setPizzasFavoritas(pizzasFavoritasUsuario);
     		if(servicioUsuarios.modificarUsuario(usuario) != null){
     			UsuarioDto usuarioDto = new UsuarioDto(usuario.get().getId(),usuario.get().getNombre(),usuario.get().getPizzasFavoritas()); 
         		return new ResponseEntity<UsuarioDto>(usuarioDto, HttpStatus.OK);
@@ -57,13 +69,13 @@ public class ControladorUsuario {
     }
     
     @DeleteMapping(value = "/eliminarUsuario/{id}")
-    public ResponseEntity<UsuarioDto> eliminarUsuario(@PathVariable Integer id){
+    public ResponseEntity<String> eliminarUsuario(@PathVariable Integer id){
     	Optional<Usuario> usuario = servicioUsuarios.obtenerUsuarioPorId(id);
     	if(usuario.isEmpty()) { //no existe
-    		return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
+    		return new ResponseEntity<String>("No existe el usuario",HttpStatus.NOT_FOUND);
     	}else {
     		servicioUsuarios.eliminarUsuario(id);
-    		return new ResponseEntity<UsuarioDto>(HttpStatus.OK);
+    		return new ResponseEntity<String>("Usuario con nombre " + usuario.get().getNombre() + " eliminado",HttpStatus.OK);
     	}
     }
     
@@ -85,26 +97,24 @@ public class ControladorUsuario {
     }
 
     
-    //Marcar pizzas favoritas
+   
     @PutMapping(value = "/marcarPizzasFavoritasUsuario/{id}")
-    public ResponseEntity<UsuarioDto> marcarPizzasFavoritasUsuario(@PathVariable Integer id,@RequestBody Map<String,ArrayList<String>> body) {
+    public ResponseEntity<UsuarioDto> marcarPizzasFavoritasUsuario(@PathVariable Integer id,@RequestBody Integer idPizzaFavorita) {
     	Optional<Usuario> usuario = servicioUsuarios.obtenerUsuarioPorId(id);
     	if(usuario.isEmpty()) { //no existe
     		return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
     	}else {
-    		//Comprobar que nada es null
-    		ArrayList<String> pizzasFavoritas = body.get("pizzasFavoritas");
-    		//Comprobar si alguna de esas pizzas a añadir ya estan en pizzas fav
-    		
-    		for(int j = 0 ; j < usuario.get().getPizzasFavoritas().size(); j++) {
-    			for(int i = 0 ; i < pizzasFavoritas.size(); i++) {
-    				if(usuario.get().getPizzasFavoritas().get(j).equals(pizzasFavoritas.get(j))) {
-    					
-    				}
-    			}
+    		//Se comprueba que la pizza NO se encuentra en el listado
+    		if(usuario.get().getPizzasFavoritas().contains(idPizzaFavorita)) {
+    			return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
+    		}
+    		//Se comprueba que la pizza existe, llamar desde usuario a pizza-read
+    		List<Integer> idsPizzasExistentes = servicioPizzas.obtenerIdsPizzas();
+    		if(!(idsPizzasExistentes.contains(idPizzaFavorita))) {
+    			return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
     		}
     		
-    		//Comprobar si la pizza existe, llamar desde usuario a pizza-read
+    		usuario.get().getPizzasFavoritas().add(idPizzaFavorita);
     		if(servicioUsuarios.modificarUsuario(usuario) != null){
     			UsuarioDto usuarioDto = new UsuarioDto(usuario.get().getId(),usuario.get().getNombre(),usuario.get().getPizzasFavoritas()); 
         		return new ResponseEntity<UsuarioDto>(usuarioDto, HttpStatus.OK);
@@ -114,11 +124,25 @@ public class ControladorUsuario {
     	}
     }
     
-
-    //Desmarcar pizzas favoritas
-//    @GetMapping(value = "/obtenerPizzasUsuario")
-//    public ResponseEntity <List<PizzaDto>> obtenerPizzasUsuario(@RequestParam Integer idUsuario){
-//        List<PizzaDto> listaPizzasUsuario = servicioPizzas.obtenerPizzasPorUsuario(idUsuario);
-//        return new ResponseEntity<>(listaPizzasUsuario,HttpStatus.OK);
-//    }
+    
+    @PutMapping(value = "/desmarcarPizzasFavoritasUsuario/{id}")
+    public ResponseEntity<UsuarioDto> desmarcarPizzasFavoritasUsuario(@PathVariable Integer id,@RequestBody Integer idPizzaFavorita) {
+    	Optional<Usuario> usuario = servicioUsuarios.obtenerUsuarioPorId(id);
+    	if(usuario.isEmpty()) { //no existe
+    		return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
+    	}else {
+    		//Se comprueba que la pizza SI se encuentra en el listado
+    		if(!(usuario.get().getPizzasFavoritas().contains(idPizzaFavorita))){
+    			return new ResponseEntity<UsuarioDto>(HttpStatus.NOT_FOUND);
+    		}
+    		
+    		usuario.get().getPizzasFavoritas().remove(idPizzaFavorita);
+    		if(servicioUsuarios.modificarUsuario(usuario) != null){
+    			UsuarioDto usuarioDto = new UsuarioDto(usuario.get().getId(),usuario.get().getNombre(),usuario.get().getPizzasFavoritas()); 
+        		return new ResponseEntity<UsuarioDto>(usuarioDto, HttpStatus.OK);
+    		}else { //falla la modificacion
+    			return new ResponseEntity<UsuarioDto>(HttpStatus.INTERNAL_SERVER_ERROR);
+    		}
+    	}
+    }
 }

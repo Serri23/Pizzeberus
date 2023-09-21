@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ServicioUsuarios {
     List<Usuario> obtenerUsuarios();
 
-	Usuario crearUsuario(String nombre, ArrayList<String> pizzasFavoritas);
+	Usuario crearUsuario(String nombre, ArrayList<Integer> pizzasFavoritas);
 
 	Optional<Usuario> obtenerUsuarioPorId(Integer id);
 

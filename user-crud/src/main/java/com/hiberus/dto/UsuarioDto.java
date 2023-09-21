@@ -6,9 +6,9 @@ public class UsuarioDto {
     
 	private Integer id;
     private String nombre;
-    private ArrayList<String> pizzasFavoritas;
+    private ArrayList<Integer> pizzasFavoritas;
     
-    public UsuarioDto(Integer id, String nombre, ArrayList<String> pizzasFavoritas) {
+    public UsuarioDto(Integer id, String nombre, ArrayList<Integer> pizzasFavoritas) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -27,10 +27,10 @@ public class UsuarioDto {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public ArrayList<String> getPizzasFavoritas() {
+	public ArrayList<Integer> getPizzasFavoritas() {
 		return pizzasFavoritas;
 	}
-	public void setPizzasFavoritas(ArrayList<String> pizzasFavoritas) {
+	public void setPizzasFavoritas(ArrayList<Integer> pizzasFavoritas) {
 		this.pizzasFavoritas = pizzasFavoritas;
 	}
     

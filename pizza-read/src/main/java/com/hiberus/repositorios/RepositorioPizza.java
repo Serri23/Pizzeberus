@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.hiberus.modelos.Pizza;
 
-import java.util.List;
 
 @Repository
 public interface RepositorioPizza extends JpaRepository<Pizza,Integer> {

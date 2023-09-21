@@ -16,7 +16,7 @@ public class Usuario {
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "pizzasFavoritas")
-    private ArrayList<String> pizzasFavoritas;
+    private ArrayList<Integer> pizzasFavoritas;
 	public Integer getId() {
 		return id;
 	}
@@ -29,10 +29,10 @@ public class Usuario {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public ArrayList<String> getPizzasFavoritas() {
+	public ArrayList<Integer> getPizzasFavoritas() {
 		return pizzasFavoritas;
 	}
-	public void setPizzasFavoritas(ArrayList<String> pizzasFavoritas) {
+	public void setPizzasFavoritas(ArrayList<Integer> pizzasFavoritas) {
 		this.pizzasFavoritas = pizzasFavoritas;
 	}
     
