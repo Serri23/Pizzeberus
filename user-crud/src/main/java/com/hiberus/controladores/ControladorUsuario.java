@@ -1,7 +1,7 @@
 package com.hiberus.controladores;
 
-import com.hiberus.dto.PizzaDto;
 import com.hiberus.dto.UsuarioDto;
+import com.hiberus.mappers.UsuarioMapperImpl;
 import com.hiberus.modelos.Usuario;
 import com.hiberus.servicios.ServicioPizzas;
 import com.hiberus.servicios.ServicioUsuarios;
@@ -41,7 +41,7 @@ public class ControladorUsuario {
     		pizzasFavoritasUsuario.add(Integer.parseInt(pizza));
     	}
 		Usuario usuario = servicioUsuarios.crearUsuario(body.get("nombre").get(0),pizzasFavoritasUsuario);
-    	UsuarioDto usuarioDto = new UsuarioDto(usuario.getId(),usuario.getNombre(),usuario.getPizzasFavoritas());
+    	UsuarioDto usuarioDto = UsuarioMapperImpl.INSTANCIA.usuarioToUsuarioDto(usuario);
     	return new ResponseEntity<UsuarioDto>(usuarioDto, HttpStatus.OK);
 	
     }
@@ -60,7 +60,7 @@ public class ControladorUsuario {
         	usuario.get().setNombre(body.get("nombre").get(0));
     		usuario.get().setPizzasFavoritas(pizzasFavoritasUsuario);
     		if(servicioUsuarios.modificarUsuario(usuario) != null){
-    			UsuarioDto usuarioDto = new UsuarioDto(usuario.get().getId(),usuario.get().getNombre(),usuario.get().getPizzasFavoritas()); 
+    			UsuarioDto usuarioDto = UsuarioMapperImpl.INSTANCIA.usuarioToUsuarioDto(usuario.get()); 
         		return new ResponseEntity<UsuarioDto>(usuarioDto, HttpStatus.OK);
     		}else { //falla la modificacion
     			return new ResponseEntity<UsuarioDto>(HttpStatus.INTERNAL_SERVER_ERROR);
