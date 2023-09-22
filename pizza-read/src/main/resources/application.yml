@@ -6,4 +6,4 @@ spring:
       uri: http://localhost:8081
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
+            matching-strategy: ant-path-matcher
