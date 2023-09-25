@@ -6,17 +6,17 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: micro-usuarios
+        - id: user-crud
           uri: lb://usuarios
           predicates:
             - Path=/usuarios/**
-        - id: micro-pizza-write
-          uri: lb://pizzas
+        - id: pizza-write
+          uri: lb://pizza-write
           predicates:
             - Path=/pizzas/**
             - Method=POST,PUT,DELETE
-        - id: micro-pizza-read
-          uri: lb://pizzas
+        - id: pizza-read
+          uri: lb://pizza-read
           predicates:
             - Path=/pizzas/**
             - Method=GET
