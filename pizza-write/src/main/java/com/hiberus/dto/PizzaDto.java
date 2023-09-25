@@ -11,6 +11,10 @@ public class PizzaDto {
 		this.nombre = nombre;
 	}
     
+	public PizzaDto() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -36,7 +36,13 @@ public class ServicioPizzasImpl implements ServicioPizzas {
     @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerIdsPizzas")
 	@Override
 	public List<Integer> obtenerIdsPizzas() {
-		return clientePizzas.obtenerIdsPizzas().getBody();
+    	List<Integer> idsPizzas = new ArrayList<Integer>();
+    	try {
+    		idsPizzas = clientePizzas.obtenerIdsPizzas().getBody();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+		return idsPizzas;
 	}
     
     private List<PizzaDto> fallBackObtenerIdsPizzas(Throwable throwable){

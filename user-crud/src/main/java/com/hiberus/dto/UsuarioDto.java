@@ -15,6 +15,10 @@ public class UsuarioDto {
 		this.pizzasFavoritas = pizzasFavoritas;
 	}
     
+	public UsuarioDto() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Integer getId() {
 		return id;
 	}
