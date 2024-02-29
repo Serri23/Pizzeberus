@@ -28,7 +28,7 @@ services:
       - "TZ=@timezone@"
       - "RABBIT_URI=amqp://guest:guest@rabbitmq:5672"
 
-  pricer_db:
+  postgres:
     image: postgres
     container_name: "pizzeberus_db"
     ports:
@@ -37,8 +37,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-
-  volumes:
-    db-data:
+       
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+     PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+     PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+     - "80:80"
+    depends_on:
+     - postgres
+  
+      

@@ -3,28 +3,50 @@ package com.hiberus.servicios.Impl;
 import com.hiberus.clientes.ClientePizzas;
 import com.hiberus.dto.PizzaDto;
 import com.hiberus.servicios.ServicioPizzas;
+
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service("feign-pizzas")
-@AllArgsConstructor
-@Slf4j
 public class ServicioPizzasImpl implements ServicioPizzas {
-    private final ClientePizzas clientePizzas;
+	Logger logger = Logger.getLogger(ServicioPizzas.class.getName());
+	
+    public ServicioPizzasImpl(ClientePizzas clientePizzas) {
+		super();
+		this.clientePizzas = clientePizzas;
+	}
 
-    @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerPizzasPorUsuario")
+	private final ClientePizzas clientePizzas;
+
+    @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerPizzas")
     @Override
-    public List<PizzaDto> obtenerPizzasPorUsuario(Integer idUsuario) {
-        return clientePizzas.obtenerPizzasPorUsuario(idUsuario).getBody();
+	public List<PizzaDto> obtenerPizzas() {
+		return clientePizzas.obtenerPizzas().getBody();
+	}
+    
+    private List<PizzaDto> fallBackObtenerPizzas(Throwable throwable){
+    	logger.info("Lista pizza por defecto");
+        return new ArrayList<>();
     }
-
-    private List<PizzaDto> fallBackObtenerPizzasPorUsuario(Integer idUsuario, Throwable throwable){
-        log.info("Lista pizza por defecto");
+    
+    @CircuitBreaker(name = "pizzas",fallbackMethod = "fallBackObtenerIdsPizzas")
+	@Override
+	public List<Integer> obtenerIdsPizzas() {
+    	List<Integer> idsPizzas = new ArrayList<Integer>();
+    	try {
+    		idsPizzas = clientePizzas.obtenerIdsPizzas().getBody();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+		return idsPizzas;
+	}
+    
+    private List<PizzaDto> fallBackObtenerIdsPizzas(Throwable throwable){
+    	logger.info("Lista pizza por defecto");
         return new ArrayList<>();
     }
 }

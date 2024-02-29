@@ -1,25 +1,41 @@
 package com.hiberus.modelos;
 
-import lombok.*;
-import javax.persistence.*;
 import java.util.ArrayList;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+import javax.persistence.*;
+
+
 @Table(name = "usuarios")
 @Entity
-@Getter
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Setter
+    
     @Column(name = "nombre")
     private String nombre;
-    @Setter
     @Column(name = "pizzasFavoritas")
-    private ArrayList<String> pizzasFavoritas;
+    private ArrayList<Integer> pizzasFavoritas;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public ArrayList<Integer> getPizzasFavoritas() {
+		return pizzasFavoritas;
+	}
+	public void setPizzasFavoritas(ArrayList<Integer> pizzasFavoritas) {
+		this.pizzasFavoritas = pizzasFavoritas;
+	}
+    
+    
 
 }
